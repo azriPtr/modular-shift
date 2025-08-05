@@ -1,0 +1,29 @@
+---
+import DefaultLayout from "../layouts/Default.astro";
+import { FeatureCardsSection } from "../sections/FeaturesCards";
+import { FeaturesGrid } from "../sections/FeaturesGrid";
+import { HeaderSection } from "../sections/Header";
+import { HeroSection } from "../sections/Hero";
+import { LatestPosts } from "../sections/LatestPosts";
+import { getCollection } from "astro:content";
+import { Testimonials } from "../sections/Testimonials"
+import { CallToAction } from "../sections/CallToAction"
+import { Footer } from "../sections/Footer"
+
+const posts = await getCollection('blog');
+const latestPost = posts.sort((a, b) => {
+  if (a.data.pubDate.valueOf() === b.data.pubDate.valueOf()) return 0;
+  return a.data.pubDate.valueOf() > b.data.pubDate.valueOf() ? -1 : 1;
+}).slice(0, 4);
+---
+
+<DefaultLayout>
+  <HeaderSection />
+  <HeroSection />
+  <FeatureCardsSection />
+  <FeaturesGrid />
+  <LatestPosts latestPosts={latestPost}/>
+  <Testimonials />
+  <CallToAction />
+  <Footer />
+</DefaultLayout> 
